@@ -1,6 +1,6 @@
 <template>
   <div>
-首页
+    <router-link to="/bpmn/index">首页</router-link>
     <router-view></router-view>
   </div>
 </template>

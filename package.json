@@ -10,6 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "bpmn-js": "^8.0.1",
+    "bpmn-js-properties-panel": "^0.38.1",
+    "camunda-bpmn-moddle": "^4.5.0",
     "element-ui": "^2.14.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"

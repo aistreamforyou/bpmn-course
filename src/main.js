@@ -8,6 +8,14 @@ Vue.config.productionTip = false
 //引入element-ui
 import ElementUI from 'element-ui'
 Vue.use(ElementUI)
+//引入bpmn的样式表（流程图基本样式）
+import 'bpmn-js/dist/assets/diagram-js.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+//属性面板样式
+import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
