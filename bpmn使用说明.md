@@ -26,7 +26,7 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 <div style="width:100%;height: 1000px;" ref="canvas"></div>
 ````
 
-```js
+```text
 // 2、引入建模器
 import BpmnModeler from 'bpmn-js/lib/Modeler'
 
@@ -100,8 +100,58 @@ import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css'
   })
 ```
 
+## 下载为bpmn、svg
+```html
+<a ref="saveBpmn" href="javascript:" title="保存为bpmn">保存为bpmn</a>
+```
 
++  添加监听
+```js
+addBpmnListener()
+{
+  let that = this
+  //获取a标签的dom节点
+  const downloadLink = that.$refs.saveBpmn
+  const downloadSvgLink = that.$refs.saveSvg
+  this.bpmnModeler.on('commandStack.changed', function() {
+    //当流程图发生变化时，执行以下代码
+    //当流程图变化时，执行自定义的方法：saveDiagram(),并将回调函数传递给saveDiagram
+    that.saveDiagram(function (data) {
+      that.setEncoded(downloadLink, 'diagram.bpmn', data.xml)
+    })
+    that.saveSvg(function (data) {
+      that.setEncoded(downloadSvgLink, 'diagram.svg', data.svg)
+    })
+  })
+}
 
+//下载为svg格式
+saveSvg(done)
+{
+  this.bpmnModeler.saveSVG().then(done)
+}
+//下载为bpmn格式
+saveDiagram(done)
+{
+  //在此调用建模器的saveXML方法，该方法会返回一个promise，该promise代理的数据中包含xml
+  // data: { xml: xmlData}
+  // 将done设置为promise的成功处理函数，而js会通过then将promise的值传递给done
+  this.bpmnModeler.saveXML({format: true}).then(done)
+}
+
+//当图发生变化时，会调用这个函数，这个data就是图的xml
+setEncoded(link, name, data)
+{
+  //将xml转换为url，用于下载
+  const encodedData = encodeURIComponent(data)
+  //下载图的具体操作，改变a的属性，className零a标签可点击，零href能下载，dounload是下载的文件的名字
+  if(data){
+    link.className = 'active'
+    link.href = 'data:application/bpmn20-xml;charset=UTF-8,' + encodedData
+    link.download = name
+  }
+}
+```
 
 
 
