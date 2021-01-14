@@ -153,7 +153,28 @@ setEncoded(link, name, data)
 }
 ```
 
-
+## 隐藏palette面板，contextPad面板
+***/static/reset.css***
+```css
+/*隐藏左边的palette面板*/
+.djs-palette.two-column.open{
+  width: 0!important;
+  overflow: hidden!important;
+  border: none!important;
+}
+/* 隐藏画布中的链接*/
+.bjs-powered-by{
+  display: none!important;
+}
+/*隐藏contextPad面板*/
+.djs-overlay-context-pad{
+  display: none!important;
+  width: 0!important;
+  height: 0!important;
+  overflow: hidden!important;
+  border: none!important;
+}
+```
 
 
 

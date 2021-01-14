@@ -16,6 +16,9 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 //属性面板样式
 import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css'
 
+//引入本地样式
+import '../static/reset.css'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -5,7 +5,7 @@
       <a ref="saveSvg" href="javascript:" title="保存为svg">保存为svg</a>
     </div>
     <div class="containers">
-      <div style="width:80%;height: 800px;" ref="canvas"></div>
+      <div style="width:80%;height: 700px;border: 1px solid red;overflow-y: hidden;" ref="canvas"></div>
       <div id="js-properties-panel"></div>
     </div>
   </div>
@@ -42,8 +42,8 @@
             parent: '#js-properties-panel'
           },
           additionalModules: [
-            //右侧属性栏
             propertiesProviderModule,
+            //右侧属性栏
             propertiesPanelModule
           ],
           moddleExtensions: {
@@ -60,6 +60,7 @@
         const downloadLink = that.$refs.saveBpmn
         const downloadSvgLink = that.$refs.saveSvg
         this.bpmnModeler.on('commandStack.changed', function() {
+          console.log(123)
           that.saveDiagram(function (data) {
             that.setEncoded(downloadLink, 'diagram.bpmn', data.xml)
           })
@@ -121,5 +122,13 @@
     height: calc(100vh - 52px);
     display: flex;
     justify-content: space-between;
+    /*/deep/.djs-palette.two-column.open{*/
+    /*  width: 0!important;*/
+    /*  overflow: hidden!important;*/
+    /*  border: none!important;*/
+    /*}*/
   }
+  /*#app > div > div > div.containers > div:nth-child(1) > div > a{*/
+  /*  !*display: none!important;*!*/
+  /*}*/
 </style>
