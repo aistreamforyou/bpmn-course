@@ -1,18 +1,34 @@
 <template>
-  <div>
+  <div class="page-wrapper">
     <div>
-      <a ref="saveBpmn" href="javascript:" title="保存为bpmn">保存为bpmn</a>&emsp;&emsp;&emsp;&emsp;
-      <a ref="saveSvg" href="javascript:" title="保存为svg">保存为svg</a>
+<!--      <a ref="saveBpmn" href="javascript:" title="保存为bpmn">保存为bpmn</a>&emsp;&emsp;&emsp;&emsp;-->
+<!--      <a ref="saveSvg" href="javascript:" title="保存为svg">保存为svg</a>-->
     </div>
-    <div class="containers">
-      <div style="width:80%;height: 700px;border: 1px solid red;overflow-y: hidden;" ref="canvas"></div>
-      <div id="js-properties-panel"></div>
+    <div class="containers" style="width: 98%;">
+      <div style="width:73%;height: 700px;overflow-y: hidden;" ref="canvas"></div>
+      <div style="width: 23%;" id="js-properties-panel"></div>
+    </div>
+    <div class="btn-wrapper">
+      <div class="btn-pane">
+        <i class="iconfont icon-wenjianjia icon-size" @click="addFile"></i>
+        <i class="iconfont icon-tianjia icon-size" @click="newFile"></i>
+      </div>
+      <div class="btn-pane">
+        <a ref="saveBpmn" href="javascript:" title="保存为bpmn">
+          <i class="iconfont icon-ft-download icon-size" @click="bpmnClick"></i>
+        </a>
+        <a ref="saveSvg" href="javascript:" title="保存为svg">
+          <i class="iconfont icon-xingzhuangjiehe icon-size" @click="svgClick"></i>
+        </a>
+      </div>
+      <input type="file" id="file" @change="selectFile()" style="filter:alpha(opacity=0);opacity: 0;width:0;height:0;"/>
     </div>
   </div>
 </template>
 <script>
   import BpmnModeler from 'bpmn-js/lib/Modeler'
   import {xmlData} from "../../mock/xmlStr";
+  import {baseXml} from "../../mock/baseXmlStr";
   //右侧属性面板
   import propertiesPanelModule from 'bpmn-js-properties-panel'
   import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'
@@ -24,14 +40,45 @@
       return {
         bpmnModeler: {},//建模器
         svgData: {},//svg数据
+        currentTarget: {},
       }
     },
     mounted(){
+      //初始化为默认xml文件
+      this.currentTarget = xmlData
+      console.log('xmldata:', xmlData)
       this.bpmnInit()
     },
     methods: {
+      bpmnClick(){
+        this.$refs.saveBpmn.click()
+      },
+      svgClick(){
+        this.$refs.saveSvg.click()
+      },
+      //初始化一个新的xml
+      newFile(){
+        this.currentTarget = baseXml
+        this.bpmnInit()
+      },
+      //触发文件选择框
+      addFile(){
+        document.querySelector('#file').click()
+      },
+      selectFile(){
+        let file = document.getElementById('file').files[0]
+        let reader = new FileReader()
+        reader.readAsText(file, 'UTF-8')
+        reader.onload = (e) => {
+          console.log(e.target.result)
+          this.currentTarget = e.target.result
+          this.bpmnInit()
+        }
+      },
       //初始化
       bpmnInit(){
+        //清除原有的流程图
+        this.clearDiagram()
         //获取canvas容器
         const canvas = this.$refs.canvas
         //初始化建模器
@@ -52,7 +99,7 @@
         })
         //绘制
         this.createParagraph()
-      },
+    },
       //添加监听
       addBpmnListener(){
         let that = this
@@ -91,16 +138,18 @@
       saveDiagram(done){
         this.bpmnModeler.saveXML({format: true}).then(done)
       },
+      //清空流程图
+      clearDiagram(){
+        this.$refs.canvas.innerHTML = ''
+      },
       //创建流程图
       async createParagraph(){
         let elementRegistry, modeling, idList, elementToColor
-        const res = await this.bpmnModeler.importXML(xmlData)
+        await this.bpmnModeler.importXML(this.currentTarget)
         //添加监听
         await this.addBpmnListener()
-        //让流程图自适应屏幕
-        // let canvas = this.bpmnModeler.get('canvas')
-        // canvas.zoom('fit-viewport')
-        //为已执行的节点添加颜色
+
+        // 为已执行的节点添加颜色
         modeling = this.bpmnModeler.get('modeling')
         elementRegistry = this.bpmnModeler.get('elementRegistry')
         idList = ['StartEvent_1','assignApprover','SequenceFlow_1']
@@ -116,19 +165,31 @@
   }
 </script>
 <style scoped lang="scss">
+  .page-wrapper{
+    position: relative;
+    .btn-wrapper{
+      position: absolute;
+      bottom: 50px;
+      left: 20px;
+      .btn-pane{
+        display: inline-block;
+        border: 1px solid #aaaaaa;
+        padding: 5px;
+        text-decoration: none;
+        .icon-size{
+          font-size: 20px;
+          color: #333333;
+        }
+        .icon-size:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  }
   .containers{
     background-color: #ffffff;
-    width: 100%;
     height: calc(100vh - 52px);
     display: flex;
     justify-content: space-between;
-    /*/deep/.djs-palette.two-column.open{*/
-    /*  width: 0!important;*/
-    /*  overflow: hidden!important;*/
-    /*  border: none!important;*/
-    /*}*/
   }
-  /*#app > div > div > div.containers > div:nth-child(1) > div > a{*/
-  /*  !*display: none!important;*!*/
-  /*}*/
 </style>

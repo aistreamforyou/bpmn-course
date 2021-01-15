@@ -18,6 +18,8 @@ import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css'
 
 //引入本地样式
 import '../static/reset.css'
+//引入iconfont图标
+import '../static/iconfont/iconfont.css'
 
 /* eslint-disable no-new */
 new Vue({

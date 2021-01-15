@@ -1,0 +1,37 @@
+{
+  "id": "2328777",
+  "name": "bpmn-course",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2330386",
+      "name": "下载",
+      "font_class": "ft-download",
+      "unicode": "e71d",
+      "unicode_decimal": 59165
+    },
+    {
+      "icon_id": "5313146",
+      "name": "文件夹",
+      "font_class": "wenjianjia",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "11439127",
+      "name": "图片下载",
+      "font_class": "xingzhuangjiehe",
+      "unicode": "e7d4",
+      "unicode_decimal": 59348
+    },
+    {
+      "icon_id": "12283277",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    }
+  ]
+}
